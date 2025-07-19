@@ -58,34 +58,92 @@ class MainMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Menú Principal')),
-      body: ListView(
-        children: [
-          ListTile(
-            title: const Text('Trabajadores'),
-            onTap: () => Navigator.pushNamed(context, '/workers'),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: const Text('Menú Principal', style: TextStyle(fontFamily: 'Orbitron', fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF0f2027), Color(0xFF2c5364)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          ListTile(
-            title: const Text('Planillas'),
-            onTap: () => Navigator.pushNamed(context, '/payrolls'),
-          ),
-          ListTile(
-            title: const Text('Préstamos'),
-            onTap: () => Navigator.pushNamed(context, '/loans'),
-          ),
-          ListTile(
-            title: const Text('Compras'),
-            onTap: () => Navigator.pushNamed(context, '/purchases'),
-          ),
-          ListTile(
-            title: const Text('Inversiones'),
-            onTap: () => Navigator.pushNamed(context, '/investments'),
-          ),
-          ListTile(
-            title: const Text('Ingresos'),
-            onTap: () => Navigator.pushNamed(context, '/incomes'),
-          ),
-        ],
+        ),
+        child: ListView(
+          padding: const EdgeInsets.only(top: 90, left: 16, right: 16, bottom: 16),
+          children: [
+            Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+              color: Colors.white.withOpacity(0.08),
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: ListTile(
+                leading: const Icon(Icons.people, color: Colors.cyanAccent, size: 36),
+                title: const Text('Trabajadores', style: TextStyle(fontFamily: 'Orbitron', color: Colors.white)),
+                onTap: () => Navigator.pushNamed(context, '/workers'),
+              ),
+            ),
+            Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+              color: Colors.white.withOpacity(0.08),
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: ListTile(
+                leading: const Icon(Icons.assignment, color: Colors.cyanAccent, size: 36),
+                title: const Text('Planillas', style: TextStyle(fontFamily: 'Orbitron', color: Colors.white)),
+                onTap: () => Navigator.pushNamed(context, '/payrolls'),
+              ),
+            ),
+            Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+              color: Colors.white.withOpacity(0.08),
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: ListTile(
+                leading: const Icon(Icons.account_balance_wallet, color: Colors.cyanAccent, size: 36),
+                title: const Text('Préstamos', style: TextStyle(fontFamily: 'Orbitron', color: Colors.white)),
+                onTap: () => Navigator.pushNamed(context, '/loans'),
+              ),
+            ),
+            Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+              color: Colors.white.withOpacity(0.08),
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: ListTile(
+                leading: const Icon(Icons.shopping_cart_checkout, color: Colors.cyanAccent, size: 36),
+                title: const Text('Compras', style: TextStyle(fontFamily: 'Orbitron', color: Colors.white)),
+                onTap: () => Navigator.pushNamed(context, '/purchases'),
+              ),
+            ),
+            Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+              color: Colors.white.withOpacity(0.08),
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: ListTile(
+                leading: const Icon(Icons.trending_up, color: Colors.cyanAccent, size: 36),
+                title: const Text('Inversiones', style: TextStyle(fontFamily: 'Orbitron', color: Colors.white)),
+                onTap: () => Navigator.pushNamed(context, '/investments'),
+              ),
+            ),
+            Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+              color: Colors.white.withOpacity(0.08),
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: ListTile(
+                leading: const Icon(Icons.attach_money, color: Colors.cyanAccent, size: 36),
+                title: const Text('Ingresos', style: TextStyle(fontFamily: 'Orbitron', color: Colors.white)),
+                onTap: () => Navigator.pushNamed(context, '/incomes'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
