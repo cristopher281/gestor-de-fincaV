@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import '../services/payroll_service.dart';
+import 'worker_dropdown.dart';
 
 class AddPayrollForm extends StatefulWidget {
   final VoidCallback onPayrollAdded;
-  final String trabajadorId;
-  const AddPayrollForm({super.key, required this.onPayrollAdded, required this.trabajadorId});
+  const AddPayrollForm({super.key, required this.onPayrollAdded});
 
   @override
   State<AddPayrollForm> createState() => _AddPayrollFormState();
 }
 
-class _AddPayrollFormState extends State<AddPayrollForm> {
   final _formKey = GlobalKey<FormState>();
   DateTime semanaInicio = DateTime.now();
   DateTime semanaFin = DateTime.now().add(const Duration(days: 6));
@@ -19,6 +18,7 @@ class _AddPayrollFormState extends State<AddPayrollForm> {
   double pago = 0;
   String estadoPago = 'Pendiente';
   DateTime fecha = DateTime.now();
+  String? trabajadorId;
   bool loading = false;
   String? error;
 
@@ -32,6 +32,9 @@ class _AddPayrollFormState extends State<AddPayrollForm> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              WorkerDropdown(
+                onSelected: (id) => trabajadorId = id,
+              ),
               Row(
                 children: [
                   const Text('Semana inicio: '),
@@ -128,10 +131,14 @@ class _AddPayrollFormState extends State<AddPayrollForm> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     setState(() { loading = true; error = null; });
+                    if (trabajadorId == null) {
+                      setState(() { error = 'Seleccione un trabajador'; });
+                      return;
+                    }
                     final result = await PayrollService().addPayroll({
                       'semana_inicio': semanaInicio.toIso8601String(),
                       'semana_fin': semanaFin.toIso8601String(),
-                      'trabajador_id': widget.trabajadorId,
+                      'trabajador_id': trabajadorId,
                       'registros_pago': [
                         {
                           'fecha': fecha.toIso8601String(),

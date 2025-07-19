@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import '../services/loan_service.dart';
+import 'worker_dropdown.dart';
 
 class AddLoanForm extends StatefulWidget {
   final VoidCallback onLoanAdded;
-  final String trabajadorId;
-  const AddLoanForm({super.key, required this.onLoanAdded, required this.trabajadorId});
+  const AddLoanForm({super.key, required this.onLoanAdded});
 
   @override
   State<AddLoanForm> createState() => _AddLoanFormState();
 }
 
-class _AddLoanFormState extends State<AddLoanForm> {
   final _formKey = GlobalKey<FormState>();
   double monto = 0;
   DateTime fecha = DateTime.now();
+  String? trabajadorId;
   bool loading = false;
   String? error;
 
@@ -27,6 +27,9 @@ class _AddLoanFormState extends State<AddLoanForm> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              WorkerDropdown(
+                onSelected: (id) => trabajadorId = id,
+              ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Monto'),
                 keyboardType: TextInputType.number,
@@ -69,8 +72,12 @@ class _AddLoanFormState extends State<AddLoanForm> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     setState(() { loading = true; error = null; });
+                    if (trabajadorId == null) {
+                      setState(() { error = 'Seleccione un trabajador'; });
+                      return;
+                    }
                     final result = await LoanService().addLoan({
-                      'trabajador_id': widget.trabajadorId,
+                      'trabajador_id': trabajadorId,
                       'monto': monto,
                       'fecha': fecha.toIso8601String(),
                       'abonos': [],

@@ -30,27 +30,60 @@ class _WorkersScreenState extends State<WorkersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Trabajadores')),
-      body: loading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: workers.length,
-              itemBuilder: (context, i) {
-                final w = workers[i];
-                return ListTile(
-                  title: Text(w['nombre'] ?? ''),
-                  subtitle: Text('Cédula: ${w['cedula'] ?? ''}'),
-                );
-              },
-            ),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: const Text('Trabajadores', style: TextStyle(fontFamily: 'Orbitron', fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF232526), Color(0xFF0f2027)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: loading
+            ? const Center(child: CircularProgressIndicator(color: Colors.cyanAccent))
+            : ListView.builder(
+                padding: const EdgeInsets.only(top: 90, left: 16, right: 16, bottom: 16),
+                itemCount: workers.length,
+                itemBuilder: (context, i) {
+                  final w = workers[i];
+                  return Card(
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                    color: Colors.white.withOpacity(0.08),
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading: const Icon(Icons.person, color: Colors.cyanAccent, size: 36),
+                      title: Text(
+                        w['nombre'] ?? '',
+                        style: const TextStyle(fontFamily: 'Orbitron', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Cédula: ${w['cedula'] ?? ''}', style: const TextStyle(color: Colors.cyanAccent)),
+                          Text('Contacto: ${w['contacto'] ?? ''}', style: const TextStyle(color: Colors.white70)),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+      ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.cyanAccent,
         onPressed: () async {
           await showDialog(
             context: context,
             builder: (context) => AddWorkerForm(onWorkerAdded: fetchWorkers),
           );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.black),
       ),
     );
   }
