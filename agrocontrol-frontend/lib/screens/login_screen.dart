@@ -55,14 +55,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               final auth = Provider.of<AuthService>(context, listen: false);
                               final result = await auth.login(email, password);
                               setState(() { loading = false; });
-                              if (result == true) {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(builder: (_) => const WorkersScreen()),
-                                );
-                              } else {
-                                setState(() { error = result.toString(); });
-                              }
+                          if (result == true) {
+                            Navigator.pushReplacementNamed(context, '/main');
+                          } else {
+                            setState(() { error = result.toString(); });
+                          }
                             }
                           },
                           child: const Text('Entrar'),
